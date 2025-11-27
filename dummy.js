@@ -1,38 +1,20 @@
-/* ───────── GLOBAL RESET ───────── */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100vw;
-  height: 100dvh; /* dynamic viewport so fits real mobile screen */
-  overflow: hidden; /* prevents extra scrolling */
-  background: #f8f6ff;
-  touch-action: pan-x; /* allows horizontal swipe */
-  font-family: system-ui, sans-serif;
-}
-
-/* ───────── BOOK WRAPPER ───────── */
+/* ───────── Book Wrapper ───────── */
 .book-wrapper {
   width: 100vw;
-  height: 100dvh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  background: #f8f6ff;
 }
 
-/* ───────── BOOK SCROLL ───────── */
+/* ───────── Book Scroll ───────── */
 .book {
   display: flex;
   flex-direction: row;
   width: 100vw;
-  height: 100dvh;
-  max-height: 100dvh;
+  height: 95vh;
   overflow-x: scroll;
-  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   background: white;
@@ -42,27 +24,20 @@ html, body {
   display: none;
 }
 
-/* ───────── INDIVIDUAL PAGES ───────── */
+/* ───────── Individual Pages ─────── */
 .page {
   width: 100vw;
-  height: 100dvh;
-  max-width: 100vw;
+  height: 100%;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
+  scroll-snap-align: start;
   justify-content: center;
   align-items: center;
-  scroll-snap-align: start;
-  padding: 1rem;
-  overflow: hidden;
+  padding: 40px;
 }
 
-/* ───────── CONTENT BOX ───────── */
+/* ───────── Content Box ───────── */
 .content-box {
-  width: 90%;
-  height: 60%;
-  max-width: 440px;
-  padding: 1.4rem 1.1rem;
+  padding: 32px 22px;
   background: rgba(255,255,255,0.6);
   border-radius: 16px;
   box-shadow: 0 4px 22px rgba(92,62,148,0.07);
@@ -70,7 +45,6 @@ html, body {
   text-align: center;
 }
 
-/* entrance animation kept ✅ */
 @keyframes floatIn {
   from {
     opacity: 0;
@@ -82,21 +56,22 @@ html, body {
   }
 }
 
-/* ───────── INTRO PAGE FULL ───────── */
+/* Mobile Swipe */
+body {
+  touch-action: pan-x;
+}
+
+
+/* ───────────────────────── Intro Page Full ───────────────────────── */
 .intro-full {
   position: relative;
   background: linear-gradient(150deg, #fdfaff 0%, #f3eeff 45%, #ede7ff 100%);
-  width: 100vw;
-  height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   overflow: hidden;
-  padding: 0 1rem;
+  width:100vw;
+  height:100vh;
 }
 
-/* glow overlay kept ✅ */
+/* Semi transparent overlay glow */
 .intro-overlay {
   position: absolute;
   inset: 0;
@@ -104,7 +79,7 @@ html, body {
   pointer-events: none;
 }
 
-/* Name Styling */
+/* Name Style */
 .intro-name {
   font-family: "Dancing Script", cursive;
   font-size: 4rem;
@@ -117,10 +92,10 @@ html, body {
 /* Subtext */
 .intro-subtitle {
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight:600;
   letter-spacing: 3px;
   opacity: 0.65;
-  text-transform: uppercase;
+  text-transform:uppercase;
   animation: fadeSlide 1.2s ease forwards;
   margin-top: 14px;
 }
@@ -134,18 +109,19 @@ html, body {
   animation: fadeIn 1.6s ease forwards;
 }
 
+/* Floating Name Animation */
 @keyframes nameFloat {
   0% { transform: translateY(4px); opacity: 0.7; }
   100% { transform: translateY(-10px); opacity: 1; }
 }
 
-/* birthday sparkles untouched ✅ */
+/* Subtle birthday sparkles background */
 .sparkle {
   position: absolute;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #5c3e944d;
+  background: rgba(92, 62, 148, 0.3);
   filter: blur(1.2px);
   animation: sparkleMove 2s infinite ease alternate;
 }
@@ -162,24 +138,21 @@ html, body {
 .spark10 { top: 50%; left: 70%; animation-duration: 2.6s; animation-direction: alternate-reverse; }
 .spark11 { top: 15%; left: 50%; animation-duration: 2.8s; }
 
+/* sparkle motion */
 @keyframes sparkleMove {
   0% { transform: translateY(0px) scale(1); opacity: 0.4; }
   100% { transform: translateY(-18px) scale(1.7); opacity: 1; }
 }
 
-/* ───────── PAGE 2 WISH FULL ───────── */
+/* ───────────────────────────────
+   PAGE 2 STYLES (No borders, elegant)
+─────────────────────────────── */
 .wish-full {
   position: relative;
   background: linear-gradient(150deg, #fdfaff 0%, #f3eeff 45%, #ede7ff 100%);
-  width: 100vw;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   overflow: hidden;
-  padding: 0 1rem;
+  width:100vw;
+  height:100vh;
 }
 
 .wish-title {
@@ -218,22 +191,23 @@ html, body {
   100% { opacity: 1; transform: scale(1.15); }
 }
 
-/* ───────── PAGE 3 — WISH WALL ───────── */
+/* ─────────────────────────
+   Page 3 - Vertical Wishes Wall
+───────────────────────── */
 .vertical-wall {
-  width: 92%;
+  width: 88%;
   max-width: 640px;
-  height: 50dvh;
-  max-height: 55dvh;
+  height: 48vh;
   overflow-y: auto;
+  animation: fadeIn 1s ease forwards;
 }
 
 .vertical-wall::-webkit-scrollbar {
   width: 4px;
 }
-
 .vertical-wall::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: #5c3e942e;
+  background: rgba(92,62,148,0.18);
 }
 
 .wish-line-card {
@@ -255,13 +229,11 @@ html, body {
   opacity: 1;
 }
 
-@keyframes fadePop {
-  0% { opacity:0; transform: scale(0.6); }
-  100% { opacity:1; transform: scale(1); }
-}
-
-
-/* ───────── PAGE 3 — CHAT STYLE ───────── */
+/* ─────────────────────────
+   PAGE 3 — GROUP CHAT STYLE
+───────────────────────── */
+/* ✅ NEW HEADER SECTION STYLE */
+/* ✅ keeps title/subtitle above chat */
 .chat-top {
   text-align: center;
   margin-bottom: 18px;
@@ -281,6 +253,7 @@ html, body {
   color: #5c3e94;
 }
 
+/* ✅ Optional header animation */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-14px); }
   to { opacity: 1; transform: translateY(0); }
@@ -290,12 +263,12 @@ html, body {
   text-align: left;
 }
 
+/* The chat area */
 .chat-wall {
   margin-top: 20px;
   width: 100%;
   max-width: 620px;
-  height: 50dvh;
-  max-height: 55dvh;
+  height: 50vh;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
@@ -304,15 +277,16 @@ html, body {
   padding-right: 6px;
 }
 
+/* hide scrollbar track-ish */
 .chat-wall::-webkit-scrollbar {
   width: 4px;
 }
-
 .chat-wall::-webkit-scrollbar-thumb {
-  background: #5c3e9440;
+  background: rgba(92,62,148,0.25);
   border-radius: 10px;
 }
 
+/* base bubble */
 .chat-bubble {
   max-width: 78%;
   padding: 10px 14px;
@@ -322,6 +296,7 @@ html, body {
   animation: bubbleIn 0.45s ease-out forwards;
 }
 
+/* left/right alignment */
 .chat-bubble.left {
   align-self: flex-start;
   background: #ffffff;
@@ -332,6 +307,7 @@ html, body {
   background: #e9e3ff;
 }
 
+/* small name in corner */
 .chat-sender {
   display: block;
   font-size: 0.7rem;
@@ -347,6 +323,7 @@ html, body {
   line-height: 1.35;
 }
 
+/* little entrance animation */
 @keyframes bubbleIn {
   from {
     opacity: 0;
@@ -358,87 +335,84 @@ html, body {
   }
 }
 
-/* ───────── PAGE 4 — PETALS FIX ───────── */
-/* Fade animation */
-.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-out {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-/* Shake animation */
-@keyframes shakeAnim {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
-  100% { transform: translateX(0); }
+/* ─────────────────────────
+   Page 4 - Minimal BD Animations
+───────────────────────── */
+#petal-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
 }
 
-.shake {
-  animation: shakeAnim 0.5s ease;
+.petal {
+  position: absolute;
+  top: -30px;
+  width: 4px;
+  height: 18px;
+  background: rgba(197,179,255,0.45);
+  border-radius: 10px;
+  animation: petalFall linear forwards;
 }
 
+@keyframes petalFall {
+  0% { transform: translateY(0) rotate(0); opacity: 0.7; }
+  100% { transform: translateY(120vh) rotate(260deg); opacity: 0; }
+}
 
-/* ───────── PAGE 4 — CANVAS FIX ───────── */
+/* Result box glow animation */
+.result-glow {
+  color: #5c3e94;
+  animation: glowText 1.6s infinite alternate ease-in-out;
+}
 
+@keyframes glowText {
+  0% { text-shadow: 0 0 4px rgba(92,62,148,0.08); }
+  100% { text-shadow: 0 0 12px rgba(92,62,148,0.25); }
+}
 
-/* ───────── PAGE 5 — CANVAS FIX ───────── */
+/* ─────────────────────────
+   Page 5 - Canvas Fancy BD Vibes
+───────────────────────── */
+.highlight-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.highlight-dot {
+  position: absolute;
+  width: 14px;
+  height: 4px;
+  background: rgba(197,179,255,0.5);
+  border-radius: 10px;
+  animation: highlightFloat 2s infinite alternate ease-in-out;
+  opacity: 0.45;
+}
+
+@keyframes highlightFloat {
+  0% { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-24px) scale(1.9); opacity: 0; }
+}
+
+/* Canvas board made elegant + borderless */
 .canvas-board {
-  width: 95%;
-  max-width: 500px;
-  height: 220px;
+  width: 100%;
+  height: 280px;
   background: #ffffff;
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(92, 62, 148, 0.1);
   border: none;
   margin-top: 20px;
-  overflow: hidden;
 }
 
-.canvas-board, canvas {
+/* Canvas interaction */
+canvas {
   display: block;
   width: 100%;
-  height: 80%;
+  height: 100%;
   border-radius: 18px;
-}
-
-/* ───────── TRUE MOBILE RESPONSIVENESS ───────── */
-@media (max-width: 768px) {
-  .intro-name {
-    font-size: 2.6rem;
-  }
-
-  .wish-title {
-    font-size: 2rem;
-  }
-
-  .title {
-    font-size: 2.1rem;
-  }
-
-  .intro-subtitle,
-  .wish-text-line,
-  .subtitle {
-    font-size: 0.85rem;
-    margin-top: 6px;
-    letter-spacing: 2px;
-  }
-
-  .chat-bubble {
-    padding: 8px 12px;
-  }
-
-  .chat-text {
-    font-size: 0.82rem;
-  }
-
-  .content-box {
-    width: 95%;
-    padding: 1rem;
-  }
 }

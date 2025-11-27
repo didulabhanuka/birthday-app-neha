@@ -1,11 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
+import Lottie from "lottie-react";
+import successAnim from "../assets/success.json";
+import errorAnim from "../assets/error.json";
 
-// ✅ 10 adult-ish riddles
+// 🔹 FUNNY MESSAGES
+const successMessages = [
+  "Hmm… whatever. You still got it right 😏",
+  "Okay genius, calm down 😎",
+  "You sure you're not cheating? 👀",
+  "Smart move… accidentally? 😌",
+  "Look at you using your brain for once 😤"
+];
+
+const errorMessages = [
+  "You fool 😭 that was totally wrong!",
+  "Bro… seriously? 💀",
+  "This ain't it chief 😒",
+  "Try again… with your eyes open this time 👁️",
+  "I'm not mad… just disappointed 😔"
+];
+
+// 🧠 RIDDLES
 const riddles = [
   {
     q: "I’m everywhere in the room, but nobody can find me until I’m needed. What am I?",
-    options: ["The TV", "The TV remote", "A microwave"],
+    options: ["The Mobile", "The TV remote", "A microwave"],
     a: "The TV remote",
   },
   {
@@ -55,21 +75,15 @@ const riddles = [
   },
 ];
 
-// 🎉 5 bonus adult humor lines
-const bonusJokes = [
-  "Why do adults exercise? Staying young mentally is free, physically is subscription-based.",
-  "I tried to adult today… 0/10, needs more naps.",
-  "Adulthood is a software update that happens at the worst time.",
-  "What gets wet while drying?… Also the symbol of adult life: a towel.",
-  "I do everything and still don’t know what to cook. That’s adulthood boss level.",
-];
-
 export default function Page4Puzzle() {
   const [index, setIndex] = useState(0);
-  const [result, setResult] = useState("");
-  const [showBonus, setShowBonus] = useState(false);
+  const [popup, setPopup] = useState({ show: false, type: "", message: "" });
+  const [shake, setShake] = useState(false);
+  const [fade, setFade] = useState(true);
 
-  // 🌸 Load petals on open
+  const total = riddles.length;
+
+  // 🌸 Petals on load
   useEffect(() => {
     createPetals();
   }, []);
@@ -100,108 +114,157 @@ export default function Page4Puzzle() {
     }
   };
 
+  // 🧠 ANSWER CHECK
   const check = (ans) => {
     const correct = riddles[index].a;
     const cleanAns = ans.trim().toLowerCase();
     const cleanCorrect = correct.toLowerCase();
+    const isCorrect =
+      cleanAns === cleanCorrect ||
+      cleanAns.includes(cleanCorrect) ||
+      cleanCorrect.includes(cleanAns);
 
-    if (cleanAns === cleanCorrect || cleanAns.includes(cleanCorrect) || cleanCorrect.includes(cleanAns)) {
-      setResult("✅ Correct — Mind unlocked!");
+    if (isCorrect) {
+      const randomMsg = successMessages[Math.floor(Math.random() * successMessages.length)];
+
+      setPopup({ show: true, type: "success", message: randomMsg });
+      triggerConfetti();
+
+      setTimeout(() => {
+        setPopup({ show: false, type: "", message: "" });
+        setFade(false);
+
+        setTimeout(() => {
+          setIndex((prev) => (prev + 1) % total);
+          setFade(true);
+        }, 200);
+      }, 2500);
     } else {
-      setResult("❌ Nope, try again!");
-    }
+      const randomMsg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
 
-    triggerConfetti();
-  };
+      setPopup({ show: true, type: "error", message: randomMsg });
+      triggerConfetti();
+      setShake(true);
 
-  const next = () => {
-    if (index < riddles.length - 1) {
-      setIndex(index + 1);
-      setResult("");
-    } else {
-      setShowBonus(true);
-      setResult("");
-      setIndex(0);
-    }
-  };
-
-  const prev = () => {
-    if (index > 0) {
-      setIndex(index - 1);
-      setResult("");
+      setTimeout(() => {
+        setPopup({ show: false, type: "", message: "" });
+        setShake(false);
+      }, 2500);
     }
   };
 
   return (
-    <section className="page wish-full d-flex flex-column justify-content-center align-items-center text-center"
-      style={{ width:"100vw", height:"100vh" }}>
-      {/* Move the title and subtitle outside the content box */}
-      <h2 className="title"><i class="bi bi-question-diamond fs-2 px-3"></i>
-Quick Game</h2>
+    <section
+      className="page wish-full d-flex flex-column justify-content-center align-items-center text-center"
+      style={{ width: "100vw", height: "100vh" }}
+    >
+      <h2 className="title py-5">
+        Riddle Attack — Defend Yourself!
+        <i className="bi bi-emoji-wink fs-2 px-3"></i>
+      </h2>
+      <div
+        className={`content-box text-center ${fade ? "fade-in" : "fade-out"} ${
+          shake ? "shake" : ""
+        }`}
+        style={{ transition: "0.3s" }}
+      >
+        <p
+          className="subtitle mb-3"
+          style={{
+            maxWidth: "440px",
+              fontWeight: "700",
+            margin: "auto",
+            marginTop: "100px",
+            paddingBottom: "40px"
+          }}
+        >
+          {riddles[index].q}
+        </p>
 
-      <div className="content-box justify-content-center align-items-center text-center">
-      <p className="subtitle mt-2 mb-3" style={{ opacity: 0.65, maxWidth: "440px", margin: "auto" }}>
-        {riddles[index].q}
+        <div className="d-flex justify-content-center gap-3 flex-wrap">
+          {riddles[index].options.map((opt) => (
+          <button
+            key={opt}
+            onClick={() => check(opt)}
+            className="btn btn-modern px-4"
+            style={{
+              color: "#5c3e94",
+              borderRadius: "12px",
+              fontWeight: "600",
+              transition: "0.3s",
+            }}
+          >
+            {opt.toUpperCase()}
+          </button>
+
+          ))}
+        </div>
+        
+<div className="d-flex justify-content-center gap-3 flex-wrap"style={{ marginTop: "130px"}}>
+      {/* Progress Text */}
+      <p style={{ marginTop: "20px", opacity: 0.7, fontSize: "1rem" }}>
+        Question {index + 1} / {total}
       </p>
-        {!showBonus && (
-          <>
-            <div
-              style={{
-                width: "80px",
-                height: "2.6px",
-                background: "#c5b3ff",
-                margin: "12px auto 20px auto",
-                borderRadius: "10px",
-                opacity: 0.35,
-              }}
-            />
-            <div className="d-flex justify-content-center gap-3 flex-wrap">
-              {riddles[index].options.map((opt) => (
-                <button
-                  key={opt}
-                  onClick={() => check(opt)}
-                  className="btn btn-modern px-4 py-2"
-                >
-                  {opt.toUpperCase()}
-                </button>
-              ))}
-            </div>
 
-            {result && (
-              <div className="result-glow mt-4" style={{ fontSize: "1.2rem", fontWeight: 600, opacity: 0.82 }}>
-                {result}
-              </div>
-            )}
+      {/* Progress Bar */}
+      <div style={{ width: "80%", height: "8px", background: "#e0d5ff", borderRadius: "10px", marginBottom: "20px" }}>
+        <div
+          style={{
+            width: `${((index + 1) / total) * 100}%`,
+            height: "100%",
+            background: "#a78bfa",
+            borderRadius: "10px",
+            transition: "width 0.4s ease",
+          }}
+        ></div>
+      </div>
 
-            <div className="mt-4 d-flex justify-content-center gap-2">
-              <button onClick={prev} className="btn btn-soft px-3">← Prev</button>
-              <button onClick={next} className="btn btn-soft px-3">Next →</button>
-            </div>
-          </>
-        )}
+</div>
 
-        {showBonus && (
-          <>
-            <h3 className="title mt-3">🎉 Bonus Joke Time 🎉</h3>
-            <div className="mt-3" style={{ maxWidth: "450px", margin: "auto", opacity: 0.8 }}>
-              {bonusJokes.map((j, i) => (
-                <p key={i} style={{ marginBottom: "12px", fontSize: "1rem" }}>
-                  {i + 1}) {j}
-                </p>
-              ))}
-            </div>
-
-            <button onClick={() => setShowBonus(false)} className="btn btn-modern mt-3 px-4 py-2">
-              Back to Riddles 🔁
-            </button>
-          </>
-        )}
       </div>
 
       {/* 🌸 Petal layer */}
       <div id="petal-layer" className="petal-layer"></div>
-      {/* 💥 Confetti layer */}
+
+      {/* 💥 Confetti */}
       <div className="confetti-container"></div>
+
+      {/* ⭐ LOTTIE POPUP ⭐ */}
+      {popup.show && (
+        <div
+          className="popup-overlay"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.55)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+            backdropFilter: "blur(2px)",
+          }}
+        >
+          <div
+            style={{
+              background: "white",
+              padding: "25px",
+              borderRadius: "12px",
+              textAlign: "center",
+              width: "260px",
+              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            }}
+          >
+            <Lottie
+              animationData={popup.type === "success" ? successAnim : errorAnim}
+              style={{ height: 150 }}
+            />
+            <p style={{ marginTop: "10px", fontWeight: 600 }}>{popup.message}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
