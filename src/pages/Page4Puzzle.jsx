@@ -159,8 +159,17 @@ export default function Page4Puzzle() {
           }}
         >
           <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", textAlign: "center", width: "100%", maxWidth: "260px", boxShadow: "0 0 20px rgba(0,0,0,0.2)" }}>
-            <Lottie animationData={popup.type === "success" ? successAnim : errorAnim} style={{ height: "auto", maxHeight: "150px" }} />
-            <p style={{ marginTop: "0.5rem", fontWeight: 600, fontSize: "clamp(0.8rem, 3vw, 1rem)" }}>{popup.message}</p>
+            <Lottie
+              animationData={popup.type === "success" ? successAnim : errorAnim}
+              style={{
+                width: "100%",
+                maxWidth: "150px", // keeps it small on mobile
+                height: "auto",
+                margin: "0 auto"
+              }}
+              loop={false}
+            />
+                        <p style={{ marginTop: "0.5rem", fontWeight: 600, fontSize: "clamp(0.8rem, 3vw, 1rem)" }}>{popup.message}</p>
           </div>
         </div>
       )}
