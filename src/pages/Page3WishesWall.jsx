@@ -15,16 +15,12 @@ export default function Page3WishesWall() {
   const reloadIntervalRef = useRef(null);
 
   const startMessageSequence = () => {
-    // Clear any existing intervals before starting fresh
     clearInterval(messageIntervalRef.current);
-
-    // Reset state
     setChat([]);
     messageIndexRef.current = 0;
 
     messageIntervalRef.current = setInterval(() => {
       const i = messageIndexRef.current;
-
       if (i < messagesScript.length) {
         setChat(prev => [...prev, messagesScript[i]]);
         messageIndexRef.current++;
@@ -35,10 +31,7 @@ export default function Page3WishesWall() {
   };
 
   useEffect(() => {
-    // Start first run
     startMessageSequence();
-
-    // Auto repeat every 60 seconds
     reloadIntervalRef.current = setInterval(() => {
       startMessageSequence();
     }, 60000);
@@ -50,19 +43,39 @@ export default function Page3WishesWall() {
   }, []);
 
   return (
-    <section className="page wish-full d-flex flex-column justify-content-center align-items-center text-center"
-      style={{ width:"100vw", height:"100vh" }}>
-
-      <div className="chat-header mb-4">
-        <h1 className="title">
-          <i class="bi bi-chat-square-heart fs-3 px-3"></i>Group Chat
+    <section
+      className="page wish-full d-flex flex-column justify-content-center align-items-center text-center"
+      style={{ width: "100vw", height: "100dvh", minHeight: "100vh" }}
+    >
+      {/* Chat header */}
+      <div className="chat-header mb-3">
+        <h1 className="title" style={{ fontSize: "clamp(1.5rem, 6vw, 2rem)" }}>
+          <i className="bi bi-chat-square-heart fs-3 px-2"></i> Group Chat
         </h1>
       </div>
 
-      <div className="content-box chat-box">
-        <p className="subtitle">Birthday messages dropping in</p>
+      {/* Chat content */}
+      <div
+        className="content-box chat-box"
+        style={{
+          width: "90%",
+          maxWidth: "440px",
+          padding: "1rem",
+          fontSize: "clamp(0.75rem, 3vw, 1rem)"
+        }}
+      >
+        <p className="subtitle" style={{ fontSize: "clamp(0.7rem, 3vw, 0.85rem)" }}>
+          Birthday messages dropping in
+        </p>
 
-        <div className="chat-wall">
+        <div
+          className="chat-wall"
+          style={{
+            maxHeight: "50dvh",
+            overflowY: "auto",
+            marginTop: "0.8rem",
+          }}
+        >
           {chat.map((m, idx) => (
             <div key={idx} className={`chat-bubble ${m.side}`}>
               <span className="chat-sender">{m.sender}</span>
@@ -71,7 +84,6 @@ export default function Page3WishesWall() {
           ))}
         </div>
       </div>
-
     </section>
   );
 }

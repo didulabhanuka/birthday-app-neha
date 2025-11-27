@@ -5,23 +5,29 @@ export default function Page1Intro() {
 
   useEffect(() => {
     setTimeout(() => setShow(true), 400);
-    window.throwConfetti?.(); // greet with small confetti if script.js exists later
+    window.throwConfetti?.(); // greet with small confetti if script.js exists
   }, []);
 
   return (
     <section
       className="page intro-full d-flex flex-column justify-content-center align-items-center text-center"
-      style={{ width:"100vw", height:"100vh" }}
+      style={{ width: "100vw", height: "100dvh", minHeight: "100vh" }}
     >
+      {/* Glow overlay */}
       <div className="intro-overlay"></div>
 
+      {/* Name */}
       <h1 className="intro-name">Nehas</h1>
+      
+      {/* Subtitle */}
       <p className="intro-subtitle">Birthday Book</p>
 
+      {/* Scroll hint */}
       {show && (
         <p className="tap-hint">Scroll horizontally to open the book</p>
       )}
 
+      {/* Sparkles */}
       <div className="sparkle spark1"></div>
       <div className="sparkle spark2"></div>
       <div className="sparkle spark3"></div>

@@ -14,32 +14,42 @@ export default function Page2Wish() {
   return (
     <>
       <section
-        className="page intro-full d-flex flex-column justify-content-center align-items-center text-center"
-        style={{ width: "100vw", height: "100vh", position: "relative" }}
+        className="page wish-full d-flex flex-column justify-content-center align-items-center text-center"
+        style={{ width: "100vw", height: "100dvh", minHeight: "100vh", position: "relative" }}
       >
-        <div className="intro-overlay"></div>
+        {/* Glow overlay */}
+        <div className="wish-bg-animation"></div>
 
+        {/* Title */}
         <h1
-          className="intro-name"
+          className="wish-title"
           style={{
-            fontSize: "3.6rem",
+            fontSize: "clamp(1.8rem, 6vw, 3.6rem)",
             animationDuration: "2.2s"
           }}
         >
           Happy Birthday, Neha!
         </h1>
 
-        <p className="intro-subtitle">You are the moment</p>
+        {/* Subtitle */}
+        <p className="wish-text-line" style={{ fontSize: "clamp(0.75rem, 3vw, 1rem)", marginTop: "0.5rem" }}>
+          You are the moment
+        </p>
 
-        {/* 🎀 Lottie 1 under text */}
+        {/* Lottie 1 under text */}
         <div
-          style={{ width: 200, marginTop: "1.5rem", cursor: "pointer" }}
+          style={{ width: "40vw", maxWidth: 200, marginTop: "1.5rem", cursor: "pointer" }}
           onClick={() => setPlayFull(true)}
         >
-          <Lottie animationData={animation1} loop={true} />
+          <Lottie animationData={animation1} loop={true} style={{ width: "100%", height: "auto" }} />
         </div>
 
-        {show && <p className="tap-hint">Tap the cake to celebrate</p>}
+        {/* Tap hint */}
+        {show && (
+          <p className="tap-hint" style={{ fontSize: "clamp(0.7rem, 3vw, 0.9rem)", marginTop: "1rem" }}>
+            Tap the cake to celebrate
+          </p>
+        )}
 
         {/* Sparkles */}
         {[...Array(11)].map((_, i) => (
@@ -47,38 +57,39 @@ export default function Page2Wish() {
         ))}
       </section>
 
-      {/* 🎉 Fullscreen Lottie 2 */}
-{playFull && (
-<div
-  style={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
-    zIndex: 9999,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    animation: "fadePop 0.5s ease-out",
-    background: "rgba(255, 255, 255, 0.2)", // <-- transparent haze
-  }}
->
-  <Lottie
-    animationData={animation2}
-    loop={false}
-    onComplete={() => setPlayFull(false)}
-    style={{
-      width: "100vw",
-      height: "100vh",
-      transform: "scale(2.5)",
-      opacity: 0.6,         // soften lottie itself
-    }}
-  />
-</div>
-
-)}
-
+      {/* Fullscreen Lottie 2 */}
+      {playFull && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100dvh",
+            minHeight: "100vh",
+            zIndex: 9999,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            animation: "fadePop 0.5s ease-out",
+            background: "rgba(255, 255, 255, 0.2)",
+          }}
+        >
+          <Lottie
+            animationData={animation2}
+            loop={false}
+            onComplete={() => setPlayFull(false)}
+            style={{
+              width: "100%",
+              height: "100%",
+              maxWidth: "100vw",
+              maxHeight: "100dvh",
+              transform: "scale(2.5)",
+              opacity: 0.6,
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }
